@@ -8,8 +8,8 @@ library system.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/library-api.git
-cd library-api
+git clone https://github.com/lilarani/Library-Management-API
+cd Library-Management-API
 ```
 
 ### 2. Install dependencies
