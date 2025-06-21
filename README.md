@@ -1,9 +1,9 @@
-## 📚 Library Management API
+## Library Management API
 
 This is a simple RESTful API for managing books and borrowing activities in a
 library system.
 
-## 🛠 Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the repository
 
@@ -25,9 +25,9 @@ npm run dev
 
 ```
 
-### 📌 API Endpoints
+### API Endpoints
 
-📘 Book Management
+Book Management
 
 Creates a new book in the database.
 
@@ -45,7 +45,7 @@ Creates a new book in the database.
 }
 ```
 
-### 📚 Get All Books
+### Get All Books
 
 - GET `/api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5`
 
@@ -55,13 +55,13 @@ Query Parameters:
 - `sort`: `asc` or `desc`
 - `limit`: Number of results (default: 10)
 
-### 🔍 Get Book by ID
+### Get Book by ID
 
 - GET `/api/books/:bookId`
 
 Fetches a single book by its ID.
 
-### ✏️ Update Book
+### Update Book
 
 #### PUT `/api/books/:bookId`
 
@@ -71,15 +71,15 @@ Updates any field of a specific book using its ID.
 
 - Any fields to update (e.g., title, author, copies)
 
-### ❌ Delete Book
+### Delete Book
 
 - DELETE `/api/books/:bookId`
 
 Deletes a book from the database using its ID.
 
-### 📖 Borrow Management
+### Borrow Management
 
-📥 Borrow a Book
+Borrow a Book
 
 - POST `/api/borrow`
 
@@ -101,7 +101,7 @@ Validations:
 
 - Quantity must not exceed available copies
 
-### 📊 Get Borrow Summary
+### Get Borrow Summary
 
 - GET `/api/borrow`
 
@@ -113,14 +113,14 @@ Response Includes:
 
 - Book title and ISBN
 
-### ✅ Validation & Error Handling
+### Validation & Error Handling
 
 - Validation errors return 400 Bad Request
 
 - Missing fields, book not found, and copy limits are handled gracefully with
   proper messages.
 
-### 📦 Models
+### Models
 
 - Book: title, author, genre, isbn, copies, available
 
