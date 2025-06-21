@@ -36,13 +36,12 @@ const borrowBook = async (req: Request, res: Response) => {
       }
 
       book.copies -= quantity;
-      await book.checkAvailability();
       await book.save();
 
       const borrowData = await Borrow.create({
         book: bookId,
         quantity,
-        dueDate: dueDate || new Date(),
+        dueDate: dueDate,
       });
 
       res.status(201).json({
@@ -62,36 +61,7 @@ const borrowBook = async (req: Request, res: Response) => {
 
 const getBorrowedBooksSummary = async (req: Request, res: Response) => {
   try {
-    const summary = await Borrow.aggregate([
-      {
-        $group: {
-          _id: '$book',
-          totalQuantity: { $sum: '$quantity' },
-        },
-      },
-      {
-        $lookup: {
-          from: 'books',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'bookInfo',
-        },
-      },
-      {
-        $unwind: '$bookInfo',
-      },
-      {
-        $project: {
-          _id: 0,
-          totalQuantity: 1,
-          book: {
-            title: '$bookInfo.title',
-            isbn: '$bookInfo.isbn',
-          },
-        },
-      },
-    ]);
-
+    const summary = await Borrow.getBorrowedBooksSummary();
     res.status(200).json({
       success: true,
       message: 'Borrowed books summary retrieved successfully',

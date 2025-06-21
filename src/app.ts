@@ -9,7 +9,9 @@ app.use('/api', bookRoutes);
 app.use('/api', borrowRotes);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('library management server is running');
+  res.send(
+    '💖 Welcome to Ababil Library – Built with love, inspired by my dearest Ababil 💖'
+  );
 });
 
 export default app;

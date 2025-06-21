@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-interface IBook {
+interface IBook extends Document {
   title: string;
   author: string;
   genre:
@@ -16,8 +16,4 @@ interface IBook {
   available: boolean;
 }
 
-interface IbookInstance extends IBook, Document {
-  checkAvailability(): Promise<void>;
-}
-
-export { IBook, IbookInstance };
+export { IBook };

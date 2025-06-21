@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
-import { IBook, IbookInstance } from '../interfaces/book.interface';
+import { IBook } from '../interfaces/book.interface';
+import { Borrow } from './borrow.model';
 
-const bookSchema = new Schema<IbookInstance>(
+const bookSchema = new Schema<IBook>(
   {
     title: { type: String, required: true },
     author: { type: String, required: true },
@@ -33,20 +34,11 @@ const bookSchema = new Schema<IbookInstance>(
   { timestamps: true, versionKey: false }
 );
 
-bookSchema.methods.checkAvailability = async function (this: IbookInstance) {
-  if (this.copies === 0) {
-    this.available = false;
-    await this.save();
+bookSchema.post('findOneAndDelete', async function (doc, next) {
+  if (doc) {
+    await Borrow.deleteMany({ book: doc._id });
   }
-};
-
-bookSchema.pre('save', function (next) {
-  console.log('saving post.......');
   next();
 });
 
-bookSchema.post('save', function (doc) {
-  console.log('noting');
-});
-
-export const Book = mongoose.model<IbookInstance>('Book', bookSchema);
+export const Book = mongoose.model<IBook>('Book', bookSchema);

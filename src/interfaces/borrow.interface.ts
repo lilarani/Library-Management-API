@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 interface IBorrow {
   book: Types.ObjectId;
@@ -6,4 +6,8 @@ interface IBorrow {
   dueDate: Date;
 }
 
-export { IBorrow };
+interface IborrowStatic extends Model<IBorrow> {
+  getBorrowedBooksSummary(): Promise<any>;
+}
+
+export { IBorrow, IborrowStatic };

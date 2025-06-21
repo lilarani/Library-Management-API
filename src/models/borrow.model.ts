@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
-import { IBorrow } from '../interfaces/borrow.interface';
+import { IBorrow, IborrowStatic } from '../interfaces/borrow.interface';
+import { Book } from './book.model';
 
-const borrowSchema = new Schema<IBorrow>(
+const borrowSchema = new Schema<IBorrow, IborrowStatic>(
   {
     book: { type: Schema.Types.ObjectId, ref: 'Book', required: true },
     quantity: {
@@ -21,4 +22,50 @@ const borrowSchema = new Schema<IBorrow>(
   }
 );
 
-export const Borrow = mongoose.model<IBorrow>('Borrow', borrowSchema);
+borrowSchema.pre('save', async function (next) {
+  const book = await Book.findById(this.book);
+  if (!book) return next();
+  if (book?.copies < 1) {
+    book.available = false;
+  }
+  await book.save();
+  next();
+});
+
+borrowSchema.static('getBorrowedBooksSummary', async function () {
+  const summary = await Borrow.aggregate([
+    {
+      $group: {
+        _id: '$book',
+        totalQuantity: { $sum: '$quantity' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'books',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'bookInfo',
+      },
+    },
+    {
+      $unwind: '$bookInfo',
+    },
+    {
+      $project: {
+        _id: 0,
+        totalQuantity: 1,
+        book: {
+          title: '$bookInfo.title',
+          isbn: '$bookInfo.isbn',
+        },
+      },
+    },
+  ]);
+  return summary;
+});
+
+export const Borrow = mongoose.model<IBorrow, IborrowStatic>(
+  'Borrow',
+  borrowSchema
+);
