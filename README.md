@@ -1,7 +1,24 @@
 ## Library Management API
 
-This is a simple RESTful API for managing books and borrowing activities in a
-library system.
+📘 Library Management API is a powerful and developer-friendly RESTful backend
+application built using TypeScript, Express.js, and MongoDB. It is designed to
+manage books and borrowing activities efficiently in a library system.
+
+With this API, administrators can easily add new books, update existing ones,
+delete old entries, and handle borrowing tasks like tracking due dates and
+checking available copies. The system uses strong schema validation to ensure
+accurate data and provides clear error messages to make development easier.
+
+### Live Demo
+
+[ababil-library](https://ababil-library-management-api.vercel.app/)
+
+### Features
+
+- Add, update, fetch, and delete books.
+- Borrow books with quantity and due date.
+- Get summarized borrow reports.
+- Proper validation and error handling.
 
 ## Setup Instructions
 
@@ -24,6 +41,8 @@ npm install
 npm run dev
 
 ```
+
+The server will start on `http://localhost:5000`
 
 ### API Endpoints
 
